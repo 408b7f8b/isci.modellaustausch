@@ -44,6 +44,7 @@ namespace isci.modellaustausch
             var modelle = LokaleModelle(konfiguration.OrdnerDatenmodelle, konfiguration.Anwendung);
 
             SimpleHttp.Route.Add("/datenmodelle", (rq, rp, args) => {
+                System.Console.WriteLine("Abruf Datenmodelle");
                 var obj = new Newtonsoft.Json.Linq.JObject();
                 var files = System.IO.Directory.GetFiles(konfiguration.OrdnerDatenmodelle, "*" + konfiguration.Anwendung + "*.json");
                 foreach (var file in files)
@@ -53,16 +54,22 @@ namespace isci.modellaustausch
                     obj.Add(filename, Modell.Stand);
                 }
                 rp.AsText(obj.ToString(), "application/json");
+                rp.StatusCode = 200;
+                rp.Close();
             });
 
             SimpleHttp.Route.Add("/modelle/{model}", (rq, rp, args) => {
+                System.Console.WriteLine("Abruf Datenmodel " + args["model"]);
                 try {
                     if (args["model"] == "" || args["model"].Contains("/")) rp.AsText("{}", "application/json");
                     var content = System.IO.File.ReadAllText(konfiguration.OrdnerDatenmodelle + "/" + args["model"]);
                     rp.AsText(content, "application/json");
+                    rp.StatusCode = 200;
                 } catch {
                     rp.AsText("{}", "application/json");
+                    rp.StatusCode = 404;
                 }
+                rp.Close();
             });
 
             SimpleHttp.HttpServer.ListenAsync(8086, System.Threading.CancellationToken.None, Route.OnHttpRequestAsync);
