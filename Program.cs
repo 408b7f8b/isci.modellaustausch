@@ -55,7 +55,7 @@ namespace isci.modellaustausch
                 rp.AsText(obj.ToString(), "application/json");
             });
 
-            SimpleHttp.Route.Add("/{model}", (rq, rp, args) => {
+            SimpleHttp.Route.Add("/modelle/{model}", (rq, rp, args) => {
                 try {
                     if (args["model"] == "" || args["model"].Contains("/")) rp.AsText("{}", "application/json");
                     var content = System.IO.File.ReadAllText(konfiguration.OrdnerDatenmodelle + "/" + args["model"]);
@@ -65,7 +65,7 @@ namespace isci.modellaustausch
                 }
             });
 
-            SimpleHttp.HttpServer.ListenAsync(8086, System.Threading.CancellationToken.None, Route.OnHttpRequestAsync).Wait();
+            SimpleHttp.HttpServer.ListenAsync(8086, System.Threading.CancellationToken.None, Route.OnHttpRequestAsync);
 
             var discovery = new isci.mdnsDiscovery();
 
@@ -98,7 +98,7 @@ namespace isci.modellaustausch
                                 if (int.Parse(modelle[verfuegbar.Key].Replace('.', '0')) >= int.Parse(verfuegbar.Value.Replace('.', '0'))) continue;
                             }
 
-                            uri = new Uri(Anwendung_Entdeckung.Ipv4 + ":" + Anwendung_Entdeckung.Port + "/" + verfuegbar.Key);
+                            uri = new Uri(Anwendung_Entdeckung.Ipv4 + ":" + Anwendung_Entdeckung.Port + "/modelle/" + verfuegbar.Key);
 
                             try {
                                 var down_req = client.GetStringAsync(uri);

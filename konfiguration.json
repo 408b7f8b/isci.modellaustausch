@@ -1,0 +1,13 @@
+{
+    "Port":8123,
+    "Zyklus":10000,
+    "Identifikation": "modellaustausch",
+    "Anwendung": "ANWENDUNG",
+    "OrdnerAnwendung": "/home/dbb/anwendungen",
+    "OrdnerDatenstruktur": "/home/dbb/anwendungen",
+    "OrdnerDatenmodelle": "/home/dbb/anwendungen",
+    "OrdnerEreignismodelle": "/home/dbb/anwendungen",
+    "OrdnerFunktionsmodelle": "/home/dbb/anwendungen",
+    "OrdnerSchnittstellen": "/home/dbb/anwendungen",
+    "OrdnerBeschreibungen": "/home/dbb/anwendungen"
+}
